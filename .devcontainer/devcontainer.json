@@ -1,0 +1,39 @@
+{
+  "name": "hackathon",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "hackathon",
+  "workspaceFolder": "/workspaces",
+  "shutdownAction": "stopCompose",
+  "containerEnv": {
+    "COMPOSE_FILE": "${containerWorkspaceFolder}/.devcontainer/docker-compose.yml"
+  },
+  "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/scripts/post-create.sh",
+  "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/scripts/post-start.sh",
+  "postAttachCommand": "${containerWorkspaceFolder}/.devcontainer/scripts/post-attach.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-python.black-formatter",
+        // "anthropic.claude-code",
+        "qwenlm.qwen-code-vscode-ide-companion",
+        "anthropic.claude-code",
+        "github.copilot",
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true
+      }
+    }
+  },
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    }
+  }
+}

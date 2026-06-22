@@ -1,0 +1,25 @@
+services:
+  hackathon:
+    image: ${IMAGE}
+    volumes:
+      - ../:/workspaces:cached
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env
+    environment:
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
+
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
+      - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL}
+
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+
+      - ENV_VAR_EXAMPLE=${ENV_VAR_EXAMPLE}
+    command: /bin/bash -c "while sleep 1000; do :; done"

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevContainer – Quick Start (Lingaro GenAI)</title>
+  <style>
+    :root{
+      --bg:#0b0f17;--card:#111827;--ink:#e5e7eb;--muted:#9ca3af;--brand:#22d3ee;--ok:#22c55e;--warn:#f59e0b;--err:#ef4444;
+      --code:#0c1220;--code-border:#1f2a44
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:32px auto;padding:0 16px}
+    .hero{padding:24px 20px 18px;border:1px solid #1f2937;background:linear-gradient(180deg,rgba(34,211,238,.08),rgba(34,211,238,.02));border-radius:18px}
+    h1{font-size:34px;margin:0 0 8px}
+    .lead{color:var(--muted);margin:0}
+    .grid{display:grid;gap:18px;margin-top:22px}
+    @media(min-width:860px){.grid{grid-template-columns:1.1fr .9fr}}
+    .card{background:var(--card);border:1px solid #1f2937;border-radius:16px;padding:18px}
+    h2{margin:0 0 10px;font-size:22px}
+    h3{margin:20px 0 8px;font-size:18px}
+    ol{margin:8px 0 0 20px}
+    code,kbd,pre{font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    pre{background:var(--code);border:1px solid var(--code-border);color:#dbeafe;padding:12px;border-radius:12px;overflow:auto}
+    .cmd{display:flex;gap:8px;align-items:center}
+    .btn{cursor:pointer;border:1px solid #334155;background:#0f172a;color:#e2e8f0;border-radius:10px;padding:6px 10px;font-weight:600}
+    .btn:hover{filter:brightness(1.1)}
+    .tag{display:inline-block;font-size:12px;background:#0b1324;border:1px solid #263553;color:#cbd5e1;border-radius:999px;padding:3px 10px;margin-right:6px}
+    .note{border-left:4px solid var(--brand);padding:10px 12px;background:#0b1324;border-radius:10px}
+    .ok{color:var(--ok)}.warn{color:var(--warn)}.err{color:var(--err)}
+    .footer{margin:28px 0 8px;color:var(--muted);font-size:14px}
+    .kbd{border:1px solid #475569;background:#0f172a;padding:2px 6px;border-radius:6px}
+    .steps li{margin-bottom:12px}
+    .small{font-size:14px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>DevContainer – Quick Start</h1>
+      <p class="lead">Step-by-step guide for Lingaro teams and hackathon participants. In a few minutes, you’ll have a GitHub repo with a ready-to-run <em>DevContainer</em> (GitHub Copilot, Cline, Claude, Qwen) and access to Lingaro GenAI Proxy.</p>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Prerequisites</h2>
+        <ul>
+          <li>Git + GitHub account, and VS Code with the <strong>Dev Containers</strong> extension installed.</li>
+          <li>Access to <strong>Lingaro GenAI Proxy</strong> and a valid API key (will go into <code>.env</code> later).</li>
+          <li>Docker Desktop or Docker Engine running locally.</li>
+          <li>[Windows] git bash installed.</li>
+        </ul>
+
+        <h2>6-Step Setup</h2>
+        <ol class="steps">
+          <li>
+            <strong>Create a GitHub repository</strong> (public or private). Recommended name: <code>devcontainer-starter</code>.
+            <div class="small">Make sure <em>Issues</em> and <em>Actions</em> are enabled (default settings are fine).</div>
+          </li>
+          <li>
+            <strong>Download the installer</strong> <code>get-devcontainer.sh</code> into the root of your repo.<br>
+            <div class="cmd">
+              <pre id="cmd-curl">curl -fsSLo get-devcontainer.sh \
+  https://raw.githubusercontent.com/Lingaro/devcontainers-templates/main/hackathon/get-devcontainer.sh</pre>
+              <button class="btn" data-copy="cmd-curl">Copy</button>
+            </div>
+            <div class="cmd">
+              <pre id="cmd-wget">wget -O get-devcontainer.sh \
+  https://raw.githubusercontent.com/Lingaro/devcontainers-templates/main/hackathon/get-devcontainer.sh</pre>
+              <button class="btn" data-copy="cmd-wget">Copy</button>
+            </div>
+            <div class="small">PowerShell (Windows):</div>
+            <div class="cmd">
+              <pre id="cmd-ps">iwr https://raw.githubusercontent.com/Lingaro/devcontainers-templates/main/hackathon/get-devcontainer.sh -OutFile get-devcontainer.sh</pre>
+              <button class="btn" data-copy="cmd-ps">Copy</button>
+            </div>
+          </li>
+          <li>
+            <strong>Run the installer</strong> (grant execute permissions if needed):
+            <div class="cmd">
+              <pre id="cmd-chmod">chmod +x get-devcontainer.sh && ./get-devcontainer.sh</pre>
+              <button class="btn" data-copy="cmd-chmod">Copy</button>
+            </div>
+            <div class="note">
+              <strong>Note (Windows + Git):</strong> If the file opens in Notepad or shows line-ending errors, set UNIX line endings: <code>git config core.autocrlf input</code> and re-download the script.
+            </div>
+          </li>
+          <li>
+            <strong>Fill in environment variables</strong> – the installer will create a <code>.devcontainer/</code> folder with sample files, including <code>.env.example</code>.
+            <div class="cmd">
+              <pre id="cmd-env">cp .devcontainer/.env.example .devcontainer/.env
+# Open .devcontainer/.env and fill in values
+# Most important: API_KEY=&lt;YOUR_LINGARO_GENAI_PROXY_KEY&gt;</pre>
+              <button class="btn" data-copy="cmd-env">Copy</button>
+            </div>
+            <div class="note">
+              You can obtain your API key using the <strong>Lingaro GenAI Proxy Bot</strong> on Microsoft Teams: <a href="https://teams.microsoft.com/l/app/b7b3f061-aa7e-425e-b6f4-79495123e611?source=" target="_blank">Open Teams Bot</a>.
+            </div>
+          </li>
+          <li>
+            <strong>[Podman only].</strong>
+            If you are using Podman instead of Docker (ie. Docker is <strong>not</strong> installed):
+            <ol>
+              <li>Podman Desktop.
+                Got to Settings → Preferences → Docker Compatibility.
+                Set Enable for Docker Compatibility.
+              </li>
+              <li>VS Code.
+                Got to Settings → Extensions → Dev Containers.</br>
+                Set Dev > Containers: Docker Compose Path to <code>podman-compose</code> (macOS) or <code>podman compose</code> (Windows).</br>
+                Set Dev > Containers: Docker Path to <code>podman</code>.
+              </li>
+            </ol>
+          </li>
+          <li>
+            <strong>Open in Dev Container</strong> – in VS Code click the <em>Dev Containers</em> icon in the bottom-left corner and select <em>Reopen in Container</em>.
+            <div class="small">Or from the Command Palette: <span class="kbd">⇧⌘P</span> / <span class="kbd">Ctrl+Shift+P</span> → “Dev Containers: Reopen in Container”.</div>
+          </li>
+          <li>
+            <strong>Done!</strong> After a few moments your DevContainer will start with pre-installed tools: GitHub Copilot, Cline, Claude, Qwen.
+            <div class="tag">Copilot</div>
+            <div class="tag">Cline</div>
+            <div class="tag">Claude</div>
+            <div class="tag">Qwen</div>
+          </li>
+        </ol>
+
+        <h3>Common Issues</h3>
+        <ul>
+          <li><span class="warn">Docker not running</span> – start Docker Desktop or Docker Engine and retry.</li>
+          <li><span class="err">Registry access denied</span> – log in if required (e.g. <code>docker login ghcr.io</code>).</li>
+          <li><span class="warn">Permission denied</span> – use <code>chmod +x</code> as in step 3.</li>
+          <li><span class="warn">Missing .env vars</span> – missing GenAI Proxy key will cause LLMs to fail in your workspace.</li>
+        </ul>
+
+        <h3>Launching VS Code from Terminal</h3>
+        <p>If you experience issues launching VS Code from the terminal (e.g., <code>code .</code> command not found), add the appropriate PATH variable:</p>
+        <pre>### For VS Code Stable
+# macOS / Linux
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# Windows (PowerShell)
+$Env:Path += ";C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+
+### For VS Code Insiders
+# macOS / Linux
+export PATH="$PATH:/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
+
+# Windows (PowerShell)
+$Env:Path += ";C:\\Users\\%USERNAME%\\AppData\\Local\\Programs\\Microsoft VS Code Insiders\\bin"</pre>
+      </article>
+
+      <aside class="card">
+        <h2>How to publish this page with GitHub Pages</h2>
+        <ol>
+          <li>Place this file as <code>index.html</code> in your repo (e.g., branch <code>main</code>).</li>
+          <li>Go to <strong>Settings → Pages</strong>.</li>
+          <li>Under <em>Build and deployment</em> choose:<br>
+            <ul>
+              <li><strong>Source</strong>: <em>Deploy from a branch</em></li>
+              <li><strong>Branch</strong>: <em>main</em> and <em>/(root)</em> (or <code>/docs</code> if files are inside <code>docs/</code>).</li>
+            </ul>
+          </li>
+          <li>Save. After ~1 minute, the site will be live at:<br>
+            <code>https://&lt;your-username&gt;.github.io/&lt;repo-name&gt;/</code>
+          </li>
+        </ol>
+
+        <h3>“docs/” Variant</h3>
+        <pre id="cmd-docs">mkdir -p docs && mv index.html docs/
+# Settings → Pages → Source: Deploy from a branch → Branch: main /docs</pre>
+        <button class="btn" data-copy="cmd-docs">Copy</button>
+
+        <h3>Add a README</h3>
+        <pre id="cmd-readme">echo "# DevContainer – Quick Start" > README.md
+printf "\nSee: https://&lt;your-username&gt;.github.io/&lt;repo-name&gt;/\n" >> README.md</pre>
+        <button class="btn" data-copy="cmd-readme">Copy</button>
+
+        <h3>Commit & Push</h3>
+        <pre id="cmd-git">git add .
+git commit -m "feat: add DevContainer quickstart page"
+git push origin main</pre>
+        <button class="btn" data-copy="cmd-git">Copy</button>
+
+        <h3>Tip: Secret Files</h3>
+        <p class="small">Never commit your <code>.devcontainer/.env</code>. Add it to <code>.gitignore</code>:</p>
+        <pre id="cmd-gi">echo ".devcontainer/.env" >> .gitignore</pre>
+        <button class="btn" data-copy="cmd-gi">Copy</button>
+      </aside>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Where do I get the Lingaro GenAI Proxy key?</summary>
+        <p>You can obtain it directly via the <a href="https://teams.microsoft.com/l/app/b7b3f061-aa7e-425e-b6f4-79495123e611?source=" target="_blank">Lingaro GenAI Proxy Bot in Microsoft Teams</a>. The bot will provide your <code>LLM_API_KEY</code> after authentication.</p>
+      </details>
+      <details>
+        <summary>Can I use an existing repo?</summary>
+        <p>Yes, run steps 2–4 in your existing repo. The <code>.devcontainer/</code> structure will be added automatically.</p>
+      </details>
+      <details>
+        <summary>“Reopen in Container” option missing in VS Code?</summary>
+        <p>Install the “Dev Containers” extension, restart VS Code, and open the command palette → “Dev Containers: Reopen in Container”.</p>
+      </details>
+    </section>
+
+    <p class="footer">© <span id="y"></span> Lingaro — DevContainer Quickstart. Ready for GitHub Pages.</p>
+  </div>
+
+  <script>
+    for (const btn of document.querySelectorAll('[data-copy]')){
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-copy');
+        const el = document.getElementById(id);
+        const text = el ? el.innerText : '';
+        navigator.clipboard.writeText(text).then(()=>{
+          const prev = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(()=>btn.textContent = prev, 1400);
+        });
+      });
+    }
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
